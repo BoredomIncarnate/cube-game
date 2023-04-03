@@ -82,12 +82,21 @@ int main(int argc, char* argv[]) {
     }
     else 
     {
-      SDL_BlitSurface( global_Background, NULL, global_screenSurface, NULL );
-      SDL_UpdateWindowSurface( global_Window );
-      //Hack to get window to stay up
-      SDL_Event e; int quit = 0; while( quit == 0 ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = 1; } }
-    }
+      SDL_Event e; 
+      int quit = 0; 
+      while( quit == 0 )
+      { 
+        while( SDL_PollEvent( &e ) )
+        { 
+          if( e.type == SDL_QUIT ) {
+            quit = 1;
+          }  
+        } 
 
+        SDL_BlitSurface( global_Background, NULL, global_screenSurface, NULL );
+        SDL_UpdateWindowSurface( global_Window );
+      }
+    }
   }
 
   close_sdl();
