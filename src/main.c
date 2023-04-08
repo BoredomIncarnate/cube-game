@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -7,9 +8,9 @@ SDL_Window* global_Window = NULL;
 SDL_Surface* global_screenSurface = NULL;
 SDL_Surface* global_Background = NULL;
 
-int init() 
+bool init() 
 {
-  int success = 0;
+  bool success = true;
 
   if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
   {
@@ -32,7 +33,7 @@ int init()
       printf( "AH SHIT! Something done fugged when trying to get the gosh darn global winder. Error details: %s\n", SDL_GetError() );
 
       // TODO: in the future use constants to assign specific error values
-      success = 1; // set success to a failure
+      success = false; // set success to a failure
     }
     else
     {
@@ -43,16 +44,16 @@ int init()
   return success;
 }
 
-int loadMedia() 
+bool loadMedia() 
 {
-  int success = 0;
+  bool success = true;
   const char *image_path = "images/smokey_purp_bg.bmp";
   global_Background = SDL_LoadBMP( image_path );
 
   if ( global_Background == NULL )
   {
     printf( "AH SHIT! Something done fugged when trying to get the gosh darn background. Error details: %s\n", SDL_GetError() );
-    success = 1;
+    success = false;
   }
 
   return success;
@@ -70,13 +71,13 @@ int main(int argc, char* argv[]) {
   SDL_Window* window = NULL;
   SDL_Surface* screenSurface = NULL;
 
-  if ( init() > 0 )
+  if ( init() == false )
   {
     printf( "SDL could not init %s\n", SDL_GetError() );
   }
   else 
   {
-    if ( loadMedia() > 0 )
+    if ( loadMedia() == false)
     {
       printf( "SDL could not load media %s\n", SDL_GetError() );
     }
